@@ -146,7 +146,7 @@ async function get_fourth_year_details(agent)
                             [
                                 {
                                     "text": "View Student Details",
-                                    "link": "https://example.com"
+                                    "link": "display.html"
                                 }
                             ]
                         }
@@ -208,7 +208,7 @@ async function get_both_year_details(agent)
                             [
                                 {
                                     "text": "View Student Details",
-                                    "link": "https://example.com"
+                                    "link": "display.html"
                                 }
                             ]
                         }
