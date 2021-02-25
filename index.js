@@ -54,20 +54,20 @@ async function get_third_year_details(agent)
         const num = await client.db("college").collection("3rd_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
-            agent.add("There are no students based on your given criteria")
+            agent.add("There are no students based on given criteria")
         }
         else
         {
             if(num>1)
             {
-                agent.add("There are "+num+" students sorted based on your given criteria");
+                agent.add("There are "+num+" students sorted based on given criteria");
                 agent.add("Click the below link to view the selected students details");
                 
                 
             }
             else
             {
-                agent.add("There is "+num+" student sorted based on your given criteria");
+                agent.add("There is "+num+" student sorted based on given criteria");
                 agent.add("Click the below link to view the selected student details");
             }
             
@@ -97,19 +97,19 @@ async function get_fourth_year_details(agent)
         const num = await client.db("college").collection("4th_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
-            agent.add("There are no students based on your given criteria")
+            agent.add("There are no students based on given criteria")
         }
         else
         {
             if(num>1)
             {
-                agent.add("There are "+num+" students sorted based on your given criteria");
+                agent.add("There are "+num+" students sorted based on given criteria");
                 agent.add("Click the below link to view the selected students details");
                 
             }
             else
             {
-                agent.add("There is "+num+" student sorted based on your given criteria");
+                agent.add("There is "+num+" student sorted based on given criteria");
                 agent.add("Click the below link to view the selected student details");
             }
             
@@ -139,19 +139,19 @@ async function get_both_year_details(agent)
         const num = await client.db("college").collection("both").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
-            agent.add("There are no students based on your given criteria")
+            agent.add("There are no students based on given criteria")
         }
         else
         {
             if(num>1)
             {
-                agent.add("There are "+num+" students sorted based on your given criteria");
+                agent.add("There are "+num+" students sorted based on given criteria");
                 agent.add("Click the below link to view the selected students details");
                 
             }
             else
             {
-                agent.add("There is "+num+" student sorted based on your given criteria");
+                agent.add("There is "+num+" student sorted based on given criteria");
                 agent.add("Click the below link to view the selected student details");
             }
             
