@@ -1,10 +1,12 @@
-const express = require("express");
-const { WebhookClient } = require("dialogflow-fulfillment");
+const express = require('express');
+const { WebhookClient } = require('dialogflow-fulfillment');
+const { Payload } =require("dialogflow-fulfillment");
 const app = express();
 var PORT = 8080;
 
 const MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
+
 
 app.post("/dialogflow", express.json(), (req, res) => {
     const agent = new WebhookClient({ 
@@ -19,6 +21,7 @@ async function welcome_note(agent)
 {
     agent.add("Hello! Welcome to NGIT Placement Cell.");
     agent.add(" Enter the given passcode to continue.");
+    
 }
 
 async function identify_user(agent)
@@ -48,7 +51,7 @@ async function get_third_year_details(agent)
         await client.connect();
         const databse = client.db("college");
         const collection = databse.collection("3rd_year");
-        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},is_already_selected:false};
+        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},is_already_selected:false};         
         const cursor = collection.find(query);
         const num = await client.db("college").collection("3rd_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
@@ -60,16 +63,36 @@ async function get_third_year_details(agent)
             if(num>1)
             {
                 agent.add("There are "+num+" students sorted based on given criteria");
-                agent.add("Click the below link to view the selected students details");
+                //agent.add("Click the below link to view the selected students details");
+
                 
                 
             }
             else
             {
                 agent.add("There is "+num+" student sorted based on given criteria");
-                agent.add("Click the below link to view the selected student details");
+                //agent.add("Click the below link to view the selected student details");
             }
-            
+            agent.add("Click the below link to view the selected student details");
+            var payLoadData=
+            {
+                "richContent": 
+                [
+                    [
+                        {
+                            "type": "chips",
+                            "options":
+                            [
+                                {
+                                    "text": "View Student Details",
+                                    "link": "display.html"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
+            agent.add(new Payload(agent.UNSPECIFIED,payLoadData,{sendAsMessage:true, rawPayload:true }));
 
         }
 
@@ -91,7 +114,7 @@ async function get_fourth_year_details(agent)
         await client.connect();
         const databse = client.db("college");
         const collection = databse.collection("4th_year");
-        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa}};
+        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},is_already_selected:false};
         const cursor = collection.find(query);
         const num = await client.db("college").collection("4th_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
@@ -103,14 +126,34 @@ async function get_fourth_year_details(agent)
             if(num>1)
             {
                 agent.add("There are "+num+" students sorted based on given criteria");
-                agent.add("Click the below link to view the selected students details");
+                //agent.add("Click the below link to view the selected students details");
                 
             }
             else
             {
                 agent.add("There is "+num+" student sorted based on given criteria");
-                agent.add("Click the below link to view the selected student details");
+                //agent.add("Click the below link to view the selected student details");
             }
+            agent.add("Click the below link to view the selected student details");
+            var payLoadData=
+            {
+                "richContent": 
+                [
+                    [
+                        {
+                            "type": "chips",
+                            "options":
+                            [
+                                {
+                                    "text": "View Student Details",
+                                    "link": "https://example.com"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
+            agent.add(new Payload(agent.UNSPECIFIED,payLoadData,{sendAsMessage:true, rawPayload:true }));
             
             
         }
@@ -133,7 +176,7 @@ async function get_both_year_details(agent)
         await client.connect();
         const databse = client.db("college");
         const collection = databse.collection("both");
-        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa}};
+        const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},is_already_selected:false};
         const cursor = collection.find(query);
         const num = await client.db("college").collection("both").countDocuments(query);
         if ((await cursor.count()) === 0) 
@@ -145,14 +188,34 @@ async function get_both_year_details(agent)
             if(num>1)
             {
                 agent.add("There are "+num+" students sorted based on given criteria");
-                agent.add("Click the below link to view the selected students details");
+               // agent.add("Click the below link to view the selected students details");
                 
             }
             else
             {
                 agent.add("There is "+num+" student sorted based on given criteria");
-                agent.add("Click the below link to view the selected student details");
+                //agent.add("Click the below link to view the selected student details");
             }
+            agent.add("Click the below link to view the selected student details");
+            var payLoadData=
+            {
+                "richContent": 
+                [
+                    [
+                        {
+                            "type": "chips",
+                            "options":
+                            [
+                                {
+                                    "text": "View Student Details",
+                                    "link": "https://example.com"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
+            agent.add(new Payload(agent.UNSPECIFIED,payLoadData,{sendAsMessage:true, rawPayload:true }));
             
 
         }
@@ -164,6 +227,7 @@ async function get_both_year_details(agent)
     
     
 }
+
     
 
 
