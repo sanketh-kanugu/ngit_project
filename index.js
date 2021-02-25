@@ -5,7 +5,6 @@ var PORT = 8080;
 
 const MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
-var randomstring = require("randomstring"); 
 
 app.post("/dialogflow", express.json(), (req, res) => {
     const agent = new WebhookClient({ 
