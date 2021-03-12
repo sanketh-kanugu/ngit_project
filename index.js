@@ -2,7 +2,24 @@ const express = require('express');
 const { WebhookClient } = require('dialogflow-fulfillment');
 const { Payload } =require("dialogflow-fulfillment");
 const app = express();
+const fs = require('fs');
 var PORT = 8080;
+const path = require('path');
+app.use(express.static('public'));
+
+
+app.get("/", function (request, response){
+    //show this file when the "/" is requested
+    response.sendFile(__dirname+"/index.html");
+});
+app.get('/display',function(req,res){
+  res.sendFile(path.join(__dirname+'/build.html'));
+  
+});
+app.get('/pdf',function(req,res){
+    res.sendFile(path.join(__dirname+'/build.pdf'));
+    
+  });
 
 
 
@@ -64,6 +81,7 @@ async function get_third_year_details(agent)
         const collection = databse.collection("3rd_year");
         const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},languages:languages};         
         const cursor = collection.find(query);
+        const sendtofile = await collection.find(query).toArray();
         const num = await client.db("college").collection("3rd_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
@@ -71,6 +89,8 @@ async function get_third_year_details(agent)
         }
         else
         {
+            
+            fs.writeFileSync('data.json',JSON.stringify(sendtofile));
             if(num>1)
             {
                 await agent.add("There are "+num+" students sorted based on given criteria");
@@ -98,7 +118,7 @@ async function get_third_year_details(agent)
                             [
                                 {
                                     "text": "View Student Details",
-                                    "link": "display.html"
+                                    "link": "http://localhost:8080/display"
                                 }
                             ]
                         }
@@ -135,6 +155,7 @@ async function get_fourth_year_details(agent)
         const collection = databse.collection("4th_year");
         const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},languages:languages};
         const cursor = collection.find(query);
+        const sendtofile = await collection.find(query).toArray();
         const num = await client.db("college").collection("4th_year").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
@@ -142,6 +163,7 @@ async function get_fourth_year_details(agent)
         }
         else
         {
+            fs.writeFileSync('data.json',JSON.stringify(sendtofile));
             if(num>1)
             {
                 await agent.add("There are "+num+" students sorted based on given criteria");
@@ -165,7 +187,7 @@ async function get_fourth_year_details(agent)
                             [
                                 {
                                     "text": "View Student Details",
-                                    "link": "display.html"
+                                    "link": "http://localhost:8080/display"
                                 }
                             ]
                         }
@@ -198,6 +220,7 @@ async function get_both_year_details(agent)
         const collection = databse.collection("both");
         const query={Intermediate_Percantage:{$gt:senior_secondary},tenth_CGPA:{$gt:tenth_gpa},Avg_present_GPA:{$gt:ug_gpa},languages:languages};
         const cursor = collection.find(query);
+        const sendtofile = await collection.find(query).toArray();
         const num = await client.db("college").collection("both").countDocuments(query);
         if ((await cursor.count()) === 0) 
         {
@@ -205,6 +228,7 @@ async function get_both_year_details(agent)
         }
         else
         {
+            fs.writeFileSync('data.json',JSON.stringify(sendtofile));
             if(num>1)
             {
                 await agent.add("There are "+num+" students sorted based on given criteria");
@@ -228,7 +252,7 @@ async function get_both_year_details(agent)
                             [
                                 {
                                     "text": "View Student Details",
-                                    "link": "display.html"
+                                    "link": "http://localhost:8080/display"
                                 }
                             ]
                         }
